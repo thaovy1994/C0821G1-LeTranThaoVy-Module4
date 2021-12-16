@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class Translation {
+public class TranslationController {
     @GetMapping(value = "")
     public String index() {
         return "index";

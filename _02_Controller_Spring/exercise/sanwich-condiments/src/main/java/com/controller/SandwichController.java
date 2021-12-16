@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class SpicedSandwich {
+public class SandwichController {
     @RequestMapping("/save")
     public String save() {
         return "select";
