@@ -17,20 +17,27 @@ public class EmailController {
 
     @GetMapping(value = "create")
     public String goPageCreate(Model model) {
-        String[]language={"English", "Vietnamese", "Japanese", "Chinese"};
-        String[]size ={"5", "10", "15", "25", "50", "100"};
-        String[]spams ={"enable"};
-        model.addAttribute("language",language);
-        model.addAttribute("size",size);
-        model.addAttribute("spams",spams);
+        String[] language = {"English", "Vietnamese", "Japanese", "Chinese"};
+        String[] size = {"5", "10", "15", "25", "50", "100"};
+        String[] spams = {"enable"};
+        model.addAttribute("language", language);
+        model.addAttribute("size", size);
+        model.addAttribute("spams", spams);
         model.addAttribute("email", new Email());
         return "create";
+    }
+
+    @GetMapping(value = "index")
+    public String index(Model model) {
+        model.addAttribute("email",emailService.show());
+        return "index";
     }
 
     @PostMapping(value = "create")
     public String createEmail(@ModelAttribute("email") Email email, RedirectAttributes redirectAttributes) {
         emailService.create(email);
-        redirectAttributes.addFlashAttribute("msg","Success");
+        redirectAttributes.addFlashAttribute("msg", "Success");
+        redirectAttributes.addFlashAttribute("email", emailService.show());
         return "redirect: /index";
     }
 }

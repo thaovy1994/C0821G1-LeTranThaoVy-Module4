@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1>List email</h1>
-<p><a href="/create">Create Student</a> </p>
+<a href="/create">Create</a>
 <p style="color: blue">${msg}</p>
 <table border="1" style="width: 500px">
     <tr>

@@ -19,8 +19,9 @@
     <%--    <form:radiobuttons path="spams" items="${spams}"></form:radiobuttons>--%>
     <form:checkboxes path="spams" items="${spams}"></form:checkboxes>
 <p>Signature:</p>
-    <%--thay thuộc tính name = path--%>
-    <%--<form: input path="sign"/>--%>
+<%--    thay thuộc tính name = path--%>
+<%--    <form:textarea path="sign"/>--%>
+<form:input path="sign"/>
 <button type="submit">Update</button>
 <button type="
 </form:form>

@@ -16,6 +16,11 @@ public class EmailService implements IEmailService {
     }
 
     @Override
+    public List<Email> show() {
+        return emailList;
+    }
+
+    @Override
     public void create(Email email) {
         emailList.add(email);
     }
