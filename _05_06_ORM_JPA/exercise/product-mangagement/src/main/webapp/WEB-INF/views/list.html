@@ -22,7 +22,7 @@
     <input type="submit" value="Search">
 
 </form>
-<table id="productList" width="100%">
+<table id="productList" width="100%" border="1">
     <thead>
     <tr>
         <th>Id</th>
@@ -32,20 +32,20 @@
         <th>Producer</th>
         <th>Update</th>
         <th>Delete</th>
-        <th>View</th>
+        <th>Detail</th>
     </tr>
     </thead>
     <thead>
     <tbody>
     <tr th:each="productObj,iter :${productList}">
-        <td th:text="${iter.id}"></td>
-        <td th:text="${iter.name}"></td>
-        <td th:text="${iter.price}"></td>
-        <td th:text="${iter.description}"></td>
-        <td th:text="${iter.producer}"></td>
-        <td><a th:href="@{/product/{id}/edit(id=${iter.id})}">Update</a></td>
-        <td><a th:href="@{/product/{id}/delete(id=${iter.id})}">Delete</a></td>
-        <td><a th:href="@{/product/{id}/view(id=${iter.id})}">View</a></td>
+        <td th:text="${productObj.id}"></td>
+        <td th:text="${productObj.name}"></td>
+        <td th:text="${productObj.price}"></td>
+        <td th:text="${productObj.description}"></td>
+        <td th:text="${productObj.producer}"></td>
+        <td><a th:href="@{/product/{id}/update(id=${productObj.id})}">Update</a></td>
+        <td><a th:href="@{/product/{id}/delete(id=${productObj.id})}">Delete</a></td>
+        <td><a th:href="@{/product/{id}/detail(id=${productObj.id})}">Detail</a></td>
     </tr>
     </tbody>
     </thead>

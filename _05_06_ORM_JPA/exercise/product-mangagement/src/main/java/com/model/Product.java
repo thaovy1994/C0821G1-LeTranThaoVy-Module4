@@ -1,8 +1,16 @@
 package com.model;
 
+import javax.persistence.*;
+
+@Entity(name = "product")  //tự động hiểu nó mapping vs bảng product trong DB
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)    //nếu id auto_increment
+    @Column(name = "id")
     private String id;
+    @Column(name = "name")
     private String name;
+
     private double price;
     private String description;
     private String producer;
