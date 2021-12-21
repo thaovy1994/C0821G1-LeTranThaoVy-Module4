@@ -9,7 +9,7 @@
     </a>
 </p>
 <div id="form">
-    <form th:action="@{/product/create}" th:object="${productList}"
+    <form th:action="@{/product/create}" th:object="${product}"
           method="post" novalidate="novalidate">
         <div>
             <label>Id</label>
@@ -24,11 +24,11 @@
             <input type="text" th:field="*{price}"/>
         </div>
         <div>
-            <label>Brand</label>
+            <label>Description</label>
             <input type="text" th:field="*{description}"/>
         </div>
         <div>
-            <label>Brand</label>
+            <label>Producer</label>
             <input type="text" th:field="*{producer}"/>
         </div>
         <input type="submit" value="Create"/>

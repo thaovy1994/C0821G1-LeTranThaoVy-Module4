@@ -32,7 +32,9 @@ public class ProductController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@ModelAttribute Product product, Model model, RedirectAttributes redirect) {
+    public String create(@ModelAttribute Product product, RedirectAttributes redirect) {
+        System.out.println(product.toString());
+        System.out.println(product.getId()+ product.getName()+product.getPrice()+product.getDescription()+product.getProducer());
         service.create(product);
         redirect.addFlashAttribute("success", "Create product successfully!");
         return "redirect:/product";
