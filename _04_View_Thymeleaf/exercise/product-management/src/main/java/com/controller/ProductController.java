@@ -1,9 +1,10 @@
 package com.controller;
 
-import com.model.Product;
+import com.entity.Product;
 import com.service.IProductService;
 import com.service.impl.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,9 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/product")
 public class ProductController {
-//    @Autowired
-    private final IProductService productService = new ProductService();
+    @Autowired
+    @Qualifier("ProductService")
+    private IProductService productService;
 
     @GetMapping(value = "")
     public String showList(Model model) {

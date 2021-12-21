@@ -1,15 +1,12 @@
 package com.service.impl;
 
-import com.model.Product;
+import com.entity.Product;
 import com.repository.IProductRepository;
 import com.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service(value = "productService")
 public class ProductService implements IProductService {

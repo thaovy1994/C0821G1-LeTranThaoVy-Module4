@@ -1,6 +1,6 @@
 package com.repository;
 
-import com.model.Product;
+import com.entity.Product;
 import java.util.List;
 
 public interface IProductRepository {

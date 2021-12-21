@@ -1,6 +1,6 @@
 package com.service.impl;
 
-import com.model.Product;
+import com.entity.Product;
 import com.service.IProductService;
 import org.springframework.stereotype.Service;
 
@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Service
+@Service(value = "ProductService")
 public class ProductService implements IProductService {
     private static final Map<String, Product> productList;
 
     static {
         productList = new HashMap<>();
-        productList.put("1",new Product("PT-01","Milk",12.000,"no sugar","vnmilk"));
+        productList.put("1",new Product("PT-01","Milk",12000,"no sugar","vnmilk"));
     }
 
     @Override

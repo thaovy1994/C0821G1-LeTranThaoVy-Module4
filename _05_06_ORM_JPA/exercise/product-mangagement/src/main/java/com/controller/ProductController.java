@@ -1,8 +1,7 @@
 package com.controller;
 
-import com.model.Product;
+import com.entity.Product;
 import com.service.IProductService;
-import com.service.impl.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -32,41 +31,53 @@ public class ProductController {
     }
 
     @PostMapping(value = "/create")
-    public String create(@ModelAttribute Product product, RedirectAttributes redirect) {
-        System.out.println(product.toString());
-        System.out.println(product.getId()+ product.getName()+product.getPrice()+product.getDescription()+product.getProducer());
+    public String create(@ModelAttribute("product") Product product, RedirectAttributes redirect) {
         service.create(product);
         redirect.addFlashAttribute("success", "Create product successfully!");
         return "redirect:/product";
     }
 
     @GetMapping(value = "/{id}/update")
-    public String showEdit(@PathVariable String id, Model model) {
+    public String showEdit(@PathVariable(name = "id") String id, Model model) {
         model.addAttribute("product", service.showDetail(id));
         return "update";
     }
 
     @PostMapping(value = "/update")
-    public String edit(@ModelAttribute("product")Product product, Model model, RedirectAttributes redirect) {
+    public String edit(@ModelAttribute("product")Product product, RedirectAttributes redirect) {
         service.update(product);
         redirect.addFlashAttribute("success", "Update product successfully!");
         return "redirect:/product";
     }
 
     @GetMapping(value = "/{id}/delete")
-    public String showDelete(@PathVariable String id, Model model) {
+    public String showDelete(@PathVariable(name = "id") String id, Model model) {
         model.addAttribute("product", service.showDetail(id));
         return "delete";
     }
     @PostMapping(value = "/delete")
-    public String delete(@RequestParam String id, Model model, RedirectAttributes redirect) {
+    public String delete(@RequestParam(name = "id") String id, RedirectAttributes redirect) {
         service.delete(id);
         redirect.addFlashAttribute("success", "Delete product successfully!");
         return "redirect:/product";
     }
+
+    @GetMapping(value = "detail/{id}")
+    public String getStudentDetail(@PathVariable(name = "id") String id, Model model) {
+        model.addAttribute("product", service.showDetail(id));
+        return "detail";
+    }
+
+    @PostMapping(value = "/detail")
+    public String detail(@RequestParam(name = "id") String id, RedirectAttributes redirect) {
+        service.showDetail(id);
+        redirect.addFlashAttribute("success", "Detail product successfully!");
+        return "redirect:/product";
+    }
+
     @PostMapping(value = "/search")
-    public String search(@RequestParam String productName, Model model) {
-        List<Product> productList = service.findByName(productName);
+    public String search(@RequestParam(name = "name") String name, Model model) {
+        List<Product> productList = service.findByName(name);
         model.addAttribute("productList",productList);
         return "list";
     }
