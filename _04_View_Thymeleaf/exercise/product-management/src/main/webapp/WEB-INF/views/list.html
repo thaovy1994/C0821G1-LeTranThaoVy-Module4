@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head">
+    <meta charset="UTF-8">
+    <title>Product List</title>
+</head>
+<body>
+<a th:href="@{/product}">Home</a>
+<h3>Customers</h3>
+<div class="notify">
+    <div th:if="${success}">
+        <span th:text="#{success}"></span>
+    </div>
+</div>
+<p>
+    <a th:href="@{/product/create}">
+        Add new product
+    </a>
+</p>
+<form th:action="@{/product/search}" method="POST" novalidate="novalidate" >
+    <input type="text" name="productName" placeholder="input name need to search">
+    <input type="submit" value="Search">
+
+</form>
+<table id="productList" width="100%">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+        <th>Producer</th>
+        <th>Update</th>
+        <th>Delete</th>
+        <th>View</th>
+    </tr>
+    </thead>
+    <thead>
+    <tbody>
+    <tr th:each="productObj,iter :${productList}">
+        <td th:text="${productObj.id}"></td>
+        <td th:text="${productObj.name}"></td>
+        <td th:text="${productObj.price}"></td>
+        <td th:text="${productObj.description}"></td>
+        <td th:text="${productObj.producer}"></td>
+        <td><a th:href="@{/product/{id}/edit(id=${productObj.id})}">Update</a></td>
+        <td><a th:href="@{/product/{id}/delete(id=${productObj.id})}">Delete</a></td>
+        <td><a th:href="@{/product/{id}/view(id=${productObj.id})}">View</a></td>
+    </tr>
+    </tbody>
+    </thead>
+</table>
+<footer th:replace="layout :: footer"></footer>
+</body>
+</html>
