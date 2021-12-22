@@ -1,6 +1,6 @@
 package cg.wbd.grandemonstration.repository.impl;
 
-import cg.wbd.grandemonstration.entity.Customer;
+import cg.wbd.grandemonstration.model.Customer;
 import cg.wbd.grandemonstration.repository.ICustomerRepository;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

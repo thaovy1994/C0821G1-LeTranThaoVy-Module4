@@ -16,6 +16,6 @@
 <!--        update/create/none-->
         <property name="hbm2ddl.auto">update</property>
 <!--        Mapping với entity-->
-        <mapping class="com.entity.Product"/>
+        <mapping class="com.model.Product"/>
     </session-factory>
 </hibernate-configuration>

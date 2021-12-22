@@ -1,6 +1,6 @@
 package cg.wbd.grandemonstration.controller;
 
-import cg.wbd.grandemonstration.entity.Customer;
+import cg.wbd.grandemonstration.model.Customer;
 import cg.wbd.grandemonstration.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

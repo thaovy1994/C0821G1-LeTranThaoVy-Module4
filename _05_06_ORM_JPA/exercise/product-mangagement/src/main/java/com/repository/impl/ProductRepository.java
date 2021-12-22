@@ -1,6 +1,6 @@
 package com.repository.impl;
 
-import com.entity.Product;
+import com.model.Product;
 import com.repository.IProductRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,6 +1,6 @@
 package com.service.impl;
 
-import com.entity.Product;
+import com.model.Product;
 import com.repository.IProductRepository;
 import com.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
