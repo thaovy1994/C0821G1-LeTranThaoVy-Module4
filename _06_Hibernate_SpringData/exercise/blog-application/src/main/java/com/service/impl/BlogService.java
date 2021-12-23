@@ -25,6 +25,11 @@ public class BlogService implements IBlogService {
     }
 
     @Override
+    public List<Blog> findByName(String name) {
+        return repository.getByName("%"+name+"%");
+    }
+
+    @Override
     public void save(Blog blog) {
         //nếu có id -> sẽ update, nếu ko có id -> sẽ create new
         repository.save(blog);

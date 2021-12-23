@@ -9,6 +9,8 @@ public interface IBlogService {
 
     Blog findById(Integer id);
 
+    List<Blog> findByName(String name);
+
     void save(Blog blog);
 
     void remove(Integer id);
