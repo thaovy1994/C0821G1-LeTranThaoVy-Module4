@@ -15,7 +15,7 @@ public interface IBlogService {
 
     void save(Blog blog);
 
-    public void remove(Integer id);
+    void remove(Integer id);
 
     Page<Blog> findAll(Pageable of);
 }

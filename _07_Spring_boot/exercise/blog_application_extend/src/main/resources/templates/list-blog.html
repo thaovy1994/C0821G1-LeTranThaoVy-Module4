@@ -7,10 +7,12 @@
 <body>
 <a href="/create-blog">Create new blog</a>
 <h1>Blog</h1>
-<form th:action="@{/blog/search}" method="POST" novalidate="novalidate" >
-    <input type="text" name="id">
-    <input type="submit" value="Search">
-
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<form th:action="@{/search}" method="get" novalidate="novalidate" >
+    <input type="text" name="name">
+    <input type="submit" value="Search" placeholder="input name">
 </form>
 <table id="blogList" width="100%" border="1">
     <thead>
@@ -19,6 +21,7 @@
         <th>Title of blog</th>
         <th>Content</th>
         <th>Note</th>
+        <th>Category</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -31,6 +34,7 @@
         <td th:text="${blog.name}"></td>
         <td th:text="${blog.content}"></td>
         <td th:text="${blog.note}"></td>
+        <td th:text="${blog.category.name}"></td>
         <td><a th:href="@{/edit-blog/__${blog.id}__ }">Edit</a></td>
         <td><a th:href="@{/delete-blog/__${blog.id}__ }">Delete</a></td>
     </tr>

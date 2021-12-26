@@ -1,8 +1,10 @@
-package com.blog_app.blog_application_extend.service;
+package com.blog_app.blog_application_extend.service.impl;
 
 import com.blog_app.blog_application_extend.model.Blog;
 import com.blog_app.blog_application_extend.repository.IBlogRepository;
+import com.blog_app.blog_application_extend.service.IBlogService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import java.util.List;
 @Service(value = "blogService")
 public class BlogService implements IBlogService {
     @Autowired
+    @Qualifier(value = "iBlogRepository")
     private IBlogRepository iBlogRepository;
 
     @Override
@@ -41,6 +44,6 @@ public class BlogService implements IBlogService {
 
     @Override
     public Page<Blog> findAll(Pageable of) {
-        return null;
+        return iBlogRepository.findAll(of);
     }
 }

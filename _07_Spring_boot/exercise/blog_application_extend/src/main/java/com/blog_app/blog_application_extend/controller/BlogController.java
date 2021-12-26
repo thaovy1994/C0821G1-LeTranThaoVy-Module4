@@ -2,94 +2,108 @@ package com.blog_app.blog_application_extend.controller;
 
 import com.blog_app.blog_application_extend.model.Blog;
 import com.blog_app.blog_application_extend.service.IBlogService;
+import com.blog_app.blog_application_extend.service.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 public class BlogController {
 
     @Autowired
+    @Qualifier(value = "blogService")
     private IBlogService blogService;
+    @Autowired
+    @Qualifier(value = "categoryService")
+    private ICategoryService categoryService;
 
-//    @GetMapping(value = {"/list",""})
-//    Hoặc
     @GetMapping("/blog")
     public ModelAndView listPage() {
-        return new ModelAndView("/list","blogList", blogService.getAll());
+        return new ModelAndView("list-blog", "blogList", blogService.getAll());
     }
-
-//    @GetMapping(value = {"/list", ""})
-//    public ModelAndView listPage(@RequestParam(value = "id", defaultValue = "")Integer id) {
-//        return new ModelAndView("list","students", blogService.findById(id));
-//    }
 
     @GetMapping("/create-blog")
     public String showCreateForm(Model model) {
-        model.addAttribute("blog",new Blog());
+        model.addAttribute("categories",categoryService.getAll());
+        model.addAttribute("blog", new Blog());
         return "create-blog";
     }
 
-    @PostMapping("/create-blog")
-    public ModelAndView saveCustomer(@ModelAttribute("blog") Blog blog) {
+    //Cách này -> Nếu load lại trang sẽ tiếp tục tạo obj vừa thêm.
+//    @PostMapping("/create-blog")
+//    public ModelAndView createNewBlog(@ModelAttribute("blog") Blog blog) {
+//        blogService.save(blog);
+//        ModelAndView modelAndView = new ModelAndView("/list");
+//        modelAndView.addObject("blogList", blogService.getAll());
+//        modelAndView.addObject("message", "New blog created successfully");
+//        return modelAndView;
+//    }
+
+    @PostMapping(value = "/create-blog")
+    public String createNewBlog(@ModelAttribute("blog") Blog blog, RedirectAttributes redirectAttributes) {
         blogService.save(blog);
-        ModelAndView modelAndView = new ModelAndView("/create-blog");
-        modelAndView.addObject("blog", new Blog());
-        modelAndView.addObject("message", "New blog created successfully");
-        return modelAndView;
+        redirectAttributes.addFlashAttribute("blogList", blogService.getAll());
+        redirectAttributes.addFlashAttribute("message", "Create new blog successfully!");
+//        return "redirect:/blog";
+        return "redirect:/list_page";
     }
 
-    @GetMapping("/edit-blog/{id}")
-    public ModelAndView showEditForm(@PathVariable Integer id) {
-        Blog blog = (Blog) blogService.findById(id);
-        if (blog != null) {
-            ModelAndView modelAndView = new ModelAndView("/blog/edit");
-            modelAndView.addObject("blog", blog);
-            return modelAndView;
+    @GetMapping("/search")
+    public String searchStudent(@RequestParam(name = "name") String name, Model model) {
+        List<Blog> blogList = blogService.findByName(name);
+        model.addAttribute("blogList", blogList);
+        return "list-blog";
+    }
 
-        } else {
-            ModelAndView modelAndView = new ModelAndView("/error.404");
-            return modelAndView;
-        }
+    //NOT YET
+    @GetMapping("/edit-blog/{id}")
+    public String showEditForm(@PathVariable(name = "id") Integer id, Model model) {
+        Blog blog = blogService.findById(id);
+        model.addAttribute("blog", blog);
+        return "edit-blog";
     }
 
     @PostMapping("/edit-blog")
     public ModelAndView updateCustomer(@ModelAttribute("blog") Blog blog) {
         blogService.save(blog);
-        ModelAndView modelAndView = new ModelAndView("/blog/edit");
-        modelAndView.addObject("blog", blog);
+        ModelAndView modelAndView = new ModelAndView("list-blog");
+        modelAndView.addObject("blogList", blogService.getAll());
         modelAndView.addObject("message", "Blog updated successfully");
         return modelAndView;
     }
 
+    //NOT YET
     @GetMapping("/delete-blog/{id}")
-    public ModelAndView showDeleteForm(@PathVariable Integer id) {
+    public ModelAndView showDeleteForm(@PathVariable(name = "id") Integer id) {
         Blog blog = blogService.findById(id);
-        if (blog != null) {
-            ModelAndView modelAndView = new ModelAndView("/blog/delete");
-            modelAndView.addObject("blog", blog);
-            return modelAndView;
-
-        } else {
-            ModelAndView modelAndView = new ModelAndView("/error.404");
-            return modelAndView;
-        }
+        ModelAndView modelAndView = new ModelAndView("/delete");
+        modelAndView.addObject("blog", blog);
+        return modelAndView;
     }
 
+    //NOT YET
     @PostMapping("/delete-blog")
     public String deleteCustomer(@ModelAttribute("blog") Blog blog) {
         blogService.remove(blog.getId());
-        return "redirect:blog";
+        return "redirect:/blog";
     }
 
-    //    @GetMapping(value = "list-page")
-//    public String listPageable(Model model, @RequestParam(value = "page", defaultValue = "0")int page) {
-//        Sort sort = Sort.by("name").descending();
-//        Page<Student> studentPage = iStudentService.findAll(PageRequest.of(page,5,sort));
-//        model.addAttribute("studentPage", studentPage);
-//        return "student/list_page";
-//    }
+    @GetMapping(value = "/list_page")
+    public String listPageable(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+        //sắp xếp theo tên cột trong DB
+        Sort sort = Sort.by("id").ascending();
+        Page<Blog> blogPage = blogService.findAll(PageRequest.of(page, 4, sort));
+        model.addAttribute("listPage", blogPage);
+        return "list-page";
+    }
 }
 
