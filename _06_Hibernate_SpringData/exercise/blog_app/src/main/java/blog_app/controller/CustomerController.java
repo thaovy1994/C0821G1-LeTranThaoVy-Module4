@@ -29,8 +29,8 @@ public class CustomerController {
     @PostMapping("/create-blog")
     public ModelAndView saveCustomer(@ModelAttribute("blog") Blog blog) {
         blogService.save(blog);
-        ModelAndView modelAndView = new ModelAndView("/blog/create");
-        modelAndView.addObject("blog", new Blog());
+        ModelAndView modelAndView = new ModelAndView("/blog/list");
+        modelAndView.addObject("blogList", blogService.findAll());
         modelAndView.addObject("message", "New blog created successfully");
         return modelAndView;
     }
@@ -44,8 +44,8 @@ public class CustomerController {
     }
 
     @GetMapping("/edit-blog/{id}")
-    public ModelAndView showEditForm(@PathVariable Integer id) {
-        Blog blog = (Blog) blogService.findById(id);
+    public ModelAndView showEditForm(@PathVariable(name = "id") Integer id) {
+        Blog blog = blogService.findById(id);
         if (blog != null) {
             ModelAndView modelAndView = new ModelAndView("/blog/edit");
             modelAndView.addObject("blog", blog);
@@ -67,8 +67,8 @@ public class CustomerController {
     }
 
     @GetMapping("/delete-blog/{id}")
-    public ModelAndView showDeleteForm(@PathVariable Integer id) {
-        Blog blog = (Blog) blogService.findById(id);
+    public ModelAndView showDeleteForm(@PathVariable(name = "id") Integer id) {
+        Blog blog = blogService.findById(id);
         if (blog != null) {
             ModelAndView modelAndView = new ModelAndView("/blog/delete");
             modelAndView.addObject("blog", blog);
