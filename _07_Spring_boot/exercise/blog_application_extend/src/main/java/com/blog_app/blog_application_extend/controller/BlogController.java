@@ -33,20 +33,10 @@ public class BlogController {
 
     @GetMapping("/create-blog")
     public String showCreateForm(Model model) {
-        model.addAttribute("categories",categoryService.getAll());
+        model.addAttribute("categories", categoryService.getAll());
         model.addAttribute("blog", new Blog());
         return "create-blog";
     }
-
-    //Cách này -> Nếu load lại trang sẽ tiếp tục tạo obj vừa thêm.
-//    @PostMapping("/create-blog")
-//    public ModelAndView createNewBlog(@ModelAttribute("blog") Blog blog) {
-//        blogService.save(blog);
-//        ModelAndView modelAndView = new ModelAndView("/list");
-//        modelAndView.addObject("blogList", blogService.getAll());
-//        modelAndView.addObject("message", "New blog created successfully");
-//        return modelAndView;
-//    }
 
     @PostMapping(value = "/create-blog")
     public String createNewBlog(@ModelAttribute("blog") Blog blog, RedirectAttributes redirectAttributes) {
@@ -57,6 +47,17 @@ public class BlogController {
         return "redirect:/list_page";
     }
 
+    //Dùng ModelAndView or Model -> Nếu load lại trang sẽ tiếp tục tạo obj vừa mới thêm.
+//    @PostMapping("/create-blog")
+//    public ModelAndView createNewBlog(@ModelAttribute("blog") Blog blog) {
+//        blogService.save(blog);
+//        ModelAndView modelAndView = new ModelAndView("/list");
+//        modelAndView.addObject("blogList", blogService.getAll());
+//        modelAndView.addObject("message", "New blog created successfully");
+//        return modelAndView;
+//    }
+
+    //NOT YET
     @GetMapping("/search")
     public String searchStudent(@RequestParam(name = "name") String name, Model model) {
         List<Blog> blogList = blogService.findByName(name);
@@ -64,7 +65,6 @@ public class BlogController {
         return "list-blog";
     }
 
-    //NOT YET
     @GetMapping("/edit-blog/{id}")
     public String showEditForm(@PathVariable(name = "id") Integer id, Model model) {
         Blog blog = blogService.findById(id);
@@ -81,16 +81,14 @@ public class BlogController {
         return modelAndView;
     }
 
-    //NOT YET
     @GetMapping("/delete-blog/{id}")
     public ModelAndView showDeleteForm(@PathVariable(name = "id") Integer id) {
         Blog blog = blogService.findById(id);
-        ModelAndView modelAndView = new ModelAndView("/delete");
+        ModelAndView modelAndView = new ModelAndView("/delete-blog");
         modelAndView.addObject("blog", blog);
         return modelAndView;
     }
-
-    //NOT YET
+    
     @PostMapping("/delete-blog")
     public String deleteCustomer(@ModelAttribute("blog") Blog blog) {
         blogService.remove(blog.getId());
