@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class User {
     @Id
     @Column
-    private Integer id;
+    private String id;
     @Column
     private String first_name;
     @Column
@@ -26,7 +26,7 @@ public class User {
     public User() {
     }
 
-    public User(Integer id, String first_name, String last_name, String phone_number, String age, String email) {
+    public User(String id, String first_name, String last_name, String phone_number, String age, String email) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -43,11 +43,11 @@ public class User {
 //        this.createDate = createDate;
 //    }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

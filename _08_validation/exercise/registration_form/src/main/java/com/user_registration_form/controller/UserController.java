@@ -35,9 +35,11 @@ public class UserController {
     @PostMapping(value = "/create_user")
     //Lưu ý: BindingResult luôn đứng ngay sau ModelAttribute -> hứng obj DTO
     //nếu 1 trang create 2 obj -> 2 ModelAttribute sẽ có 2 BindingResult để hứng
-    public String createNewBlog(@Valid @ModelAttribute("user") UserDTO userDto,
+    public String createNewBlog(@Valid @ModelAttribute("users") UserDTO userDto,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
+        //gọi method validate() đê check
+        new UserDTO().validate(userDto,bindingResult);
         if(bindingResult.hasErrors()){
             return "create_user";
         }

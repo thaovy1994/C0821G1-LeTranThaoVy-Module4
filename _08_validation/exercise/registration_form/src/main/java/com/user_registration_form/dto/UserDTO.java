@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 public class UserDTO implements Validator {
-    private Integer id;
+    private String id;
     @NotNull(message = "Name is not empty")
     @Pattern(regexp = "[A-Za-z ]{5,45}", message = "Number of word from 5 to 45")
     private String first_name;
@@ -19,7 +19,7 @@ public class UserDTO implements Validator {
     public UserDTO() {
     }
 
-    public UserDTO(Integer id, String first_name, String last_name, String phone_number, String age, String email) {
+    public UserDTO(String id, String first_name, String last_name, String phone_number, String age, String email) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -28,11 +28,11 @@ public class UserDTO implements Validator {
         this.email = email;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -85,7 +85,7 @@ public class UserDTO implements Validator {
     public void validate(Object target, Errors errors) {
         UserDTO userDTO = (UserDTO) target;
         if (!userDTO.first_name.matches("[A-Za-z ]{5,45}")) {
-            errors.rejectValue("nameErr", "nameErr.invalidFormat");
+            errors.rejectValue("first_name", "first_name.invalidFormat");
         }
     }
 }
