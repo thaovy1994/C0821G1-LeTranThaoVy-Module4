@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new user</title>
+</head>
+<body>
+<h1>Create new user</h1>
+<form th:action="@{/create-user}" th:object="${users}" method="post">
+    <table>
+        <tr>
+            <td>Id of blog:</td>
+            <td><input type="text" th:field="*{id}"/></td>
+        </tr>
+        <tr>
+            <td>Title of blog:</td>
+            <td><input type="text" th:field="*{first_name}"/></td>
+            <p style="color: red" th:if="${#fields.hasErrors('nameErr')}" th:errors="*{first_name}"></p>
+        </tr>
+        <tr>
+            <td>Content of blog:</td>
+            <td><input type="text" th:field="*{last_name}"/></td>
+        </tr>
+        <tr>
+            <td>Note:</td>
+            <td><input type="text" th:field="*{phone_number}"/></td>
+        </tr>
+        <tr>
+            <td>Note:</td>
+            <td><input type="text" th:field="*{age}"/></td>
+        </tr>
+        <tr>
+            <td>Note:</td>
+            <td><input type="text" th:field="*{email}"/></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Create blog"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

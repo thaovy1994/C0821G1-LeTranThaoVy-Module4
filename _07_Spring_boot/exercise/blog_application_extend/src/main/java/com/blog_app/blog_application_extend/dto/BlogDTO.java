@@ -1,22 +1,16 @@
-package com.blog_app.blog_application_extend.model;
+package com.blog_app.blog_application_extend.dto;
 
-import javax.persistence.*;
+import com.blog_app.blog_application_extend.model.Category;
 
-@Entity(name = "blog")
-public class Blog {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
+public class BlogDTO {
     private Integer id;
-    @Column
+
     private String name;
-    @Column
+
     private String content;
-    @Column
+
     private String note;
 
-    @ManyToOne(targetEntity = Category.class)
-    @JoinColumn(name = "category_id")
     private Category category;
 
     public Category getCategory() {
@@ -27,10 +21,10 @@ public class Blog {
         this.category = category;
     }
 
-    public Blog() {
+    public BlogDTO() {
     }
 
-    public Blog(Integer id, String name, String content, String note) {
+    public BlogDTO(Integer id, String name, String content, String note) {
         this.id = id;
         this.name = name;
         this.content = content;

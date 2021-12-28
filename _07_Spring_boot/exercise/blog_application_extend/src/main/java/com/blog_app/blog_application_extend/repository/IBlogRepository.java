@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository(value="iBlogRepository")
 public interface IBlogRepository extends JpaRepository<Blog, Integer> {
-    @Query(value = "select  * from blog where name like: name", nativeQuery = true)
+    @Query(value = "select  * from blog where name like :name", nativeQuery = true)
     List<Blog> getByName(@Param("name") String name);
 }

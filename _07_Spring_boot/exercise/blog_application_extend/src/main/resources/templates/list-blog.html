@@ -11,8 +11,8 @@
     <p th:text="${message}"></p>
 </th:block>
 <form th:action="@{/search}" method="get" novalidate="novalidate" >
-    <input type="text" name="name">
-    <input type="submit" value="Search" placeholder="input name">
+    <input type="text" name="name" placeholder="input name">
+    <input type="submit" value="Search">
 </form>
 <table id="blogList" width="100%" border="1">
     <thead>

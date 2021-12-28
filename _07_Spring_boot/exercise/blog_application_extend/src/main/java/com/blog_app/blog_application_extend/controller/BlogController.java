@@ -57,7 +57,6 @@ public class BlogController {
 //        return modelAndView;
 //    }
 
-    //NOT YET
     @GetMapping("/search")
     public String searchStudent(@RequestParam(name = "name") String name, Model model) {
         List<Blog> blogList = blogService.findByName(name);
