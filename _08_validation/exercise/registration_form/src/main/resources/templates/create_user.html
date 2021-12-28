@@ -15,23 +15,27 @@
         <tr>
             <td>First Name:</td>
             <td><input type="text" th:field="*{first_name}"/></td>
-            <p style="color: red" th:if="${#fields.hasErrors('first_name')}" th:errors="*{first_name}"></p>
+            <td style="color: red" th:if="${#fields.hasErrors('first_name')}" th:errors="*{first_name}"></td>
         </tr>
         <tr>
             <td>Last Name:</td>
             <td><input type="text" th:field="*{last_name}"/></td>
+            <td style="color: red" th:if="${#fields.hasErrors('last_name')}" th:errors="*{last_name}"></td>
         </tr>
         <tr>
             <td>Phone Number:</td>
             <td><input type="text" th:field="*{phone_number}"/></td>
+            <td style="color: red" th:if="${#fields.hasErrors('phone_number')}" th:errors="*{phone_number}"></td>
         </tr>
         <tr>
             <td>Age:</td>
             <td><input type="text" th:field="*{age}"/></td>
+            <td style="color: red" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></td>
         </tr>
         <tr>
             <td>Email:</td>
             <td><input type="text" th:field="*{email}"/></td>
+            <td style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></td>
         </tr>
         <tr>
             <td></td>

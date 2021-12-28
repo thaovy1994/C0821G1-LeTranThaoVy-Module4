@@ -1,7 +1,6 @@
 package com.user_registration_form.controller;
 
 import com.user_registration_form.dto.UserDTO;
-import com.user_registration_form.model.User;
 import com.user_registration_form.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,8 +37,8 @@ public class UserController {
     public String createNewBlog(@Valid @ModelAttribute("users") UserDTO userDto,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes) {
-        //gọi method validate() đê check
-        new UserDTO().validate(userDto,bindingResult);
+        //gọi method validate() đê check. nếu sử dụng cách implements Validator.
+        //new UserDTO().validate(userDto,bindingResult);
         if(bindingResult.hasErrors()){
             return "create_user";
         }

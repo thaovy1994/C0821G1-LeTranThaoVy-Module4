@@ -1,25 +1,28 @@
 package com.user_registration_form.dto;
 
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
-
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 
-public class UserDTO implements Validator {
+public class UserDTO {
     private String id;
-    @NotNull(message = "Name is not empty")
+    @NotEmpty(message = "First Name is not empty")
     @Pattern(regexp = "[A-Za-z ]{5,45}", message = "Number of word from 5 to 45")
     private String first_name;
+    @NotEmpty(message = "Last Name is not empty")
+    @Pattern(regexp = "[A-Za-z ]{5,45}", message = "Number of word from 5 to 45")
     private String last_name;
+    @Pattern(regexp = "(090|070)+\\d{7}", message = "must be 10 numbers & start with 090 or 070")
     private String phone_number;
-    private String age;
+    @Min(18)
+    private Integer age;
+    @Pattern(regexp = "[A-Z0-9._%-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,4}", message = "Email is wrong format")
     private String email;
 
     public UserDTO() {
     }
 
-    public UserDTO(String id, String first_name, String last_name, String phone_number, String age, String email) {
+    public UserDTO(String id, String first_name, String last_name, String phone_number, Integer age, String email) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -60,11 +63,11 @@ public class UserDTO implements Validator {
         this.phone_number = phone_number;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
@@ -74,18 +77,5 @@ public class UserDTO implements Validator {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    @Override
-    public boolean supports(Class<?> clazz) {
-        return false;
-    }
-
-    @Override
-    public void validate(Object target, Errors errors) {
-        UserDTO userDTO = (UserDTO) target;
-        if (!userDTO.first_name.matches("[A-Za-z ]{5,45}")) {
-            errors.rejectValue("first_name", "first_name.invalidFormat");
-        }
     }
 }

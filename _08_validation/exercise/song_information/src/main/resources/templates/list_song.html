@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of song</title>
+</head>
+<body>
+<a href="/create_song">Create new song</a>
+<h1>Blog</h1>
+<th:block th:if="${message}">
+    <p th:text="${message}"></p>
+</th:block>
+<table id="list" width="100%" border="1">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name of song</th>
+        <th>Artist</th>
+        <th>Kind of music</th>
+    </tr>
+    </thead>
+    <thead>
+    <tbody>
+    <tr th:each="song: ${songList}">
+        <td th:text="${song.id}"></td>
+        <td th:text="${song.song_name}"></td>
+        <td th:text="${song.artist_name}"></td>
+        <td th:text="${song.kind_of}"></td>
+        <td>
+            <a th:href="@{/edit_song/__${song.id}__ }">Edit</a>
+            <a th:href="@{/delete_song/__${song.id}__ }">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+    </thead>
+</table>
+</body>
+</html>

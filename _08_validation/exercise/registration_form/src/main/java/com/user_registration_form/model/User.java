@@ -17,7 +17,7 @@ public class User {
     @Column
     private String phone_number;
     @Column
-    private String age;
+    private Integer age;
     @Column
     private String email;
 //    @Column
@@ -26,7 +26,7 @@ public class User {
     public User() {
     }
 
-    public User(String id, String first_name, String last_name, String phone_number, String age, String email) {
+    public User(String id, String first_name, String last_name, String phone_number, Integer age, String email) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -75,11 +75,11 @@ public class User {
         this.phone_number = phone_number;
     }
 
-    public String getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(String age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
