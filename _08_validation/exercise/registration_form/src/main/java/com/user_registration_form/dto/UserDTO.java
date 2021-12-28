@@ -16,7 +16,7 @@ public class UserDTO {
     private String phone_number;
     @Min(18)
     private Integer age;
-    @Pattern(regexp = "[A-Z0-9._%-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,4}", message = "Email is wrong format")
+    @Pattern(regexp = "[a-z0-9._%-]+@[a-z0-9.-]+\\.[a-z]{2,4}", message = "Email is wrong format")
     private String email;
 
     public UserDTO() {
