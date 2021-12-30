@@ -20,15 +20,15 @@ public class BookController {
     @Autowired
     private IBookBorrowService bookBorrowService;
 
-    @GetMapping("/")
-    public String showHome(Model model) {
-        return "/home";
-    }
+//    @GetMapping("/")
+//    public String showHome(Model model) {
+//        return "/home";
+//    }
 
     @GetMapping("/book")
     public String showListBook(Model model) {
         model.addAttribute("bookList", bookService.findAll());
-        return "/list";
+        return "list";
     }
 
     @GetMapping("/create-book")
@@ -42,7 +42,7 @@ public class BookController {
         bookService.save(book);
         model.addAttribute("book", book);
         model.addAttribute("message", "New book created successfully");
-        return "redirect:book";
+        return "redirect:/book";
     }
 
     @GetMapping("/borrow-book/{id}")
@@ -50,14 +50,14 @@ public class BookController {
         Optional<Book> book = bookService.findById(id);
         if (book.get().getNumber() != 0) {
             model.addAttribute("book", book.get());
-            return "/detail";
+            return "detail";
 
         } else {
-            return "/test";
+            return "test";
         }
     }
 
-    @PostMapping("/borrow/borrowBook/{id}")
+    @PostMapping("/borrowBook/{id}")
     public String borrowBook(@PathVariable Integer id, Model model,
                              RedirectAttributes redirectAttributes) throws Exception {
         Optional<Book> bookOptional = bookService.findById(id);
@@ -67,7 +67,7 @@ public class BookController {
         bookService.addBorrow(book);
         model.addAttribute("bookList", bookService.findAll());
 //        redirectAttributes.addFlashAttribute("message", "Borrow successfully");
-        return "/list2";
+        return "/list_borrow";
     }
 
     @GetMapping("/return-book/{id}")
@@ -75,9 +75,9 @@ public class BookController {
         Optional<Book> book = bookService.findById(id);
         if (book != null) {
             model.addAttribute("book", book.get());
-            return "/book/return";
+            return "list";
         } else {
-            return "/test";
+            return "test";
         }
     }
 
@@ -88,7 +88,7 @@ public class BookController {
                              RedirectAttributes redirectAttributes) throws Exception {
         if (bookBorrowService.returnBook(book, Integer.parseInt(code))) {
             redirectAttributes.addFlashAttribute("message", "Return successfully");
-            return "redirect:book";
+            return "redirect:/book";
         } else {
             throw new Exception();
         }
@@ -97,10 +97,10 @@ public class BookController {
     @GetMapping("/borrow-list")
     public String showListBorrow(Model model) {
         model.addAttribute("bookBorrowList", bookBorrowService.findAll());
-        return "/borrow/list";
+        return "list";
     }
 
-    //Exception/RuntimeException/InputMissMatchException/NumberFormatException/...
+    //Exception/RuntimeException/InputMisMatchException/NumberFormatException/...
     @ExceptionHandler(Exception.class)
     public String handleException(Model model) {
         return "test";
