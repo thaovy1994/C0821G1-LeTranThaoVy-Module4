@@ -1,0 +1,13 @@
+package com.customer_management_springboot;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class CustomerManagementSpringbootApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(CustomerManagementSpringbootApplication.class, args);
+    }
+
+}
