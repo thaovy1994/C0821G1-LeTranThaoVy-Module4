@@ -16,7 +16,7 @@ public class Blog {
     private String note;
 
     @ManyToOne(targetEntity = Category.class)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id",referencedColumnName = "category_id")
     private Category category;
 
     public Category getCategory() {

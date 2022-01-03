@@ -18,8 +18,13 @@ public class BlogService implements IBlogService {
     private IBlogRepository iBlogRepository;
 
     @Override
-    public List<Blog> getAll() {
-        return iBlogRepository.findAll();
+    public void save(Blog blog) {
+        iBlogRepository.save(blog);
+    }
+
+    @Override
+    public void remove(Integer id) {
+        iBlogRepository.deleteById(id);
     }
 
     @Override
@@ -28,18 +33,23 @@ public class BlogService implements IBlogService {
     }
 
     @Override
+    public List<Blog> getAll() {
+        return iBlogRepository.findAll();
+    }
+
+    @Override
+    public Page<Blog> getAll(Pageable pageable) {
+        return iBlogRepository.findAll(pageable);
+    }
+
+    @Override
     public List<Blog> findByName(String name) {
         return iBlogRepository.getByName("%" + name + "%");
     }
 
     @Override
-    public void save(Blog blog) {
-        iBlogRepository.save(blog);
-    }
-
-    @Override
-    public void remove(Integer id) {
-        iBlogRepository.deleteById(id);
+    public Page<Blog> findAllByName(Pageable pageable, String keyword) {
+        return null;
     }
 
     @Override

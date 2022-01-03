@@ -138,6 +138,7 @@ public class BlogController {
     public String listPageable(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
         //sắp xếp theo tên cột trong DB
         Sort sort = Sort.by("id").ascending();
+        //PageRequest -> tạo Pageable truyền cho findAll()
         Page<Blog> blogPage = blogService.findAll(PageRequest.of(page, 4, sort));
         model.addAttribute("listPage", blogPage);
         return "list-page";

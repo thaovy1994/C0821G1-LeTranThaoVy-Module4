@@ -18,6 +18,6 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public List<Category> getAll() {
-        return null;
+        return iCategoryRepository.findAll();
     }
 }

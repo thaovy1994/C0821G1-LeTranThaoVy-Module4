@@ -1,6 +1,6 @@
 package com.blog_app.blog_app_restful.controller;
 
-import com.blog_app.model.Blog;
+import com.blog_app.blog_app_restful.model.Blog;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
