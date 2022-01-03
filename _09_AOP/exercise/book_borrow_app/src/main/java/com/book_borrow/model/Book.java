@@ -1,36 +1,34 @@
 package com.book_borrow.model;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity(name = "book")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "book_id")
     private Integer id;
+    @Column
     private String name;
+    @Column
     private String author;
-    private Integer number;
+    @Column
+    private Integer quantity;
 
-    @OneToMany(targetEntity = BookBorrow.class, mappedBy ="book")
-    List<BookBorrow> bookBorrowList;
-
-    public List<BookBorrow> getBookBorrowList() {
-        return bookBorrowList;
-    }
-
-    public void setBookBorrowList(List<BookBorrow> bookBorrowList) {
-        this.bookBorrowList = bookBorrowList;
-    }
+    @OneToMany(targetEntity = BookBorrow.class, mappedBy = "book", cascade = CascadeType.ALL)
+//    List<BookBorrow> bookBorrowList;
+    private Set<BookBorrow> codeSet;
 
     public Book() {
     }
 
-    public Book(Integer id, String name, String author, Integer number) {
+    public Book(Integer id, String name, String author, Integer quantity, Set<BookBorrow> codeSet) {
         this.id = id;
         this.name = name;
         this.author = author;
-        this.number = number;
+        this.quantity = quantity;
+        this.codeSet = codeSet;
     }
 
     public Integer getId() {
@@ -57,11 +55,19 @@ public class Book {
         this.author = author;
     }
 
-    public Integer getNumber() {
-        return number;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setNumber(Integer number) {
-        this.number = number;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Set<BookBorrow> getCodeSet() {
+        return codeSet;
+    }
+
+    public void setCodeSet(Set<BookBorrow> codeSet) {
+        this.codeSet = codeSet;
     }
 }

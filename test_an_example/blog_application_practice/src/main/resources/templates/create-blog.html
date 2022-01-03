@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create blog</title>
+</head>
+<body>
+<h1>Create blog</h1>
+<p>
+    <a href="/blog">Blog list</a>
+</p>
+<form th:action="@{/create-blog}" th:object="${blog}" method="post">
+    <table>
+        <tr>
+            <td>Id of blog:</td>
+            <td><input type="text" th:field="*{id}"/></td>
+        </tr>
+        <tr>
+            <td>Title of blog:</td>
+            <td><input type="text" th:field="*{name}"/></td>
+        </tr>
+        <tr>
+            <td>Content of blog:</td>
+            <td><input type="text" th:field="*{content}"/></td>
+        </tr>
+        <tr>
+            <td>Note:</td>
+            <td><input type="text" th:field="*{note}"/></td>
+        </tr>
+        <tr>
+            <td>Categories:</td>
+            <td>
+                <select th:field="*{category}">
+<!--                    th:field -> property category (trong model Blog) -->
+<!--                    th:each -> danh sách lấy từ DB của bảng khóa ngoại-->
+<!--                    th:value -> bắt buộc phải gởi id (ko đc là đối tượng khác), khi gởi qua Controller,-->
+<!--                            formatter sẽ auto tìm trong DB. Nếu có sẽ gán vào property category (trong model Blog)-->
+<!--                            Ngược lại sẽ nhận giá trị là Null.-->
+<!--                    th:text -> hiển thị cho user chọn.-->
+                    <option th:each="category : ${categories}" th:value="${category.category_id}"
+                            th:text="${category.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input type="submit" value="Create blog"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>

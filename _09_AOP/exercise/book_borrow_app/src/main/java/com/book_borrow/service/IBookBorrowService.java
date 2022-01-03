@@ -9,7 +9,10 @@ import java.util.Optional;
 public interface IBookBorrowService {
     List<BookBorrow> findAll();
 
-    Optional<BookBorrow> findById(Integer id);
+    //Optional<BookBorrow> findById(Integer id);
+    BookBorrow findById(Integer id);
+
+    BookBorrow findByCode(String code);
 
     void save(BookBorrow bookBorrow);
 

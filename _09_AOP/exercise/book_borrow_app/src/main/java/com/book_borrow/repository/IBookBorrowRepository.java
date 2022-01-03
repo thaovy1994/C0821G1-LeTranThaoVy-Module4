@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IBookBorrowRepository extends JpaRepository<BookBorrow,Integer> {
+    BookBorrow findByCodeForBook(String code);
 }

@@ -17,9 +17,6 @@ public class BookService implements IBookService {
     @Autowired
     private IBookRepository bookRepository;
 
-    @Autowired
-    private IBookBorrowRepository bookBorrowRepository;
-
     @Override
     public List<Book> findAll() {
         return bookRepository.findAll();
@@ -27,12 +24,15 @@ public class BookService implements IBookService {
 
     @Override
     //class Optional là obj generic -> tránh lỗi NullPointerException
-    public Optional<Book> findById(Integer id) throws Exception {
-        Optional<Book> bookOptional = bookRepository.findById(id);
-        if (!bookOptional.isPresent()) {
-            throw new Exception("Not found!");
-        }
-        return bookOptional;
+//    public Optional<Book> findById(Integer id) throws Exception {
+//        Optional<Book> bookOptional = bookRepository.findById(id);
+//        if (!bookOptional.isPresent()) {
+//            throw new Exception("Not found!");
+//        }
+//        return bookOptional;
+//    }
+    public Book findById(Integer id){
+        return bookRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -45,15 +45,4 @@ public class BookService implements IBookService {
         bookRepository.deleteById(id);
     }
 
-    @Override
-    public void addBorrow(Book book) {
-//        status.setId(1);
-        BookBorrow bookBorrow = new BookBorrow();
-        //mã số mượn sách ngẫu nhiên gồm 5 chữ số.
-        int n = new Random().nextInt(5);
-        bookBorrow.setBook(book);
-        bookBorrow.setCode(n);
-        System.out.println(bookBorrow);
-        bookBorrowRepository.save(bookBorrow);
-    }
 }

@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <title>List borrow book</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-          crossorigin="anonymous">
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
 <header th:insert="~{/layout::header1}"></header>
@@ -13,16 +12,16 @@
     <th:block th:if="${message}">
         <p th:text="${message}"></p>
     </th:block>
-    <h3>List borrow book</h3>
+    <h3>List of Books</h3>
     <div class="row">
         <div class="col-lg-4">
-            <a class="btn btn-primary text-light" href="/create-book" style="color: snow">Create new book</a>
+            <a class="btn btn-outline-info" href="/create-book" style="color: limegreen">Create new book</a>
         </div>
         <div class="col-lg-8">
             <form style="float: right">
                 <label>Search by name</label>
                 <input type="text" name="name">
-                <button type="submit" class="btn btn-primary" >Search</button>
+                <button type="submit" class="btn btn-info">Search</button>
             </form>
         </div>
     </div>
@@ -31,32 +30,34 @@
             <table class="table table-striped" style="width:100% content-box">
                 <thead>
                 <tr style="height: 50px" class="text-center bg-success text-light m-auto">
-                    <th>Id</th>
-                    <th>Code</th>
-                    <th>Book</th>
-                    <th>Status</th>
+                    <th>Book Id</th>
+                    <th>Name of Book</th>
+                    <th>Author</th>
+                    <th>Quantity</th>
+                    <th>Quantity</th>
+                    <th>Borrow</th>
                     <th>Return</th>
                     <th>Delete</th>
                 </tr>
+                </thead>
                 <tbody>
-                <th:block th:each="cardBorrow : ${cardBorrowList}">
+                <th:block th:each="books : ${bookList}">
                     <tr>
-                        <td th:text="${cardBorrow.id}"></td>
-                        <td th:text="${cardBorrow.code}"></td>
-                        <td th:text="${cardBorrow.book.name}"></td>
-                        <td th:text="${cardBorrow.status.status}"></td>
+                        <td th:text="${books.id}"></td>
+                        <td class="text-center" th:text="${books.name}"></td>
+                        <td class="text-center" th:text="${books.author}"></td>
+                        <td class="text-center" th:text="${books.quantity}"></td>
                         <td class="text-center">
-                            <a th:href="@{/return-book/__${cardBorrow.book.id}__ }"
-                               role="button" class="btn btn-large btn-success">Return</a>
+                            <a class="btn btn-warning" th:href="@{/borrow/{id}(id=${books.id})}">Borrow</a>
                         </td>
                         <td class="text-center">
-                            <a th:href="@{/delete-book/__${cardBorrow.book.id}__ }"
+                            <a th:href="@{/return-book/__${books.id}__ }" role="button"
+                               class="btn btn-large btn-success">Return</a>
+                        </td>
+                        <td class="text-center">
+                            <a th:href="@{/delete-book/__${books.id}__ }"
                                role="button" class="btn btn-large btn-danger">Delete</a>
                         </td>
-                        <!--                            <td><a th:href="@{/borrow-book/__${cardBorrow.book.id}__ }">Borrow</a></td>-->
-                        <!--                            <td><a th:href="@{/return-book/__${cardBorrow.book.id}__ }">Return</a></td>-->
-                        <!--                            <td><a th:href="@{/delete-book/__${cardBorrow.book.id}__ }">Delete</a></td>-->
-                    </tr>
                 </th:block>
                 </tbody>
             </table>

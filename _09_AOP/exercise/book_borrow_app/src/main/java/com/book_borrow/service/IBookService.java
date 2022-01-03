@@ -8,11 +8,10 @@ import java.util.Optional;
 public interface IBookService {
     List<Book> findAll();
 
-    Optional<Book> findById(Integer id) throws Exception;
+//    Optional<Book> findById(Integer id) throws Exception;
+    Book findById(Integer id);
 
     void save(Book book);
 
     void remove(Integer id);
-
-    void addBorrow(Book book);
 }
