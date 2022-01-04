@@ -28,7 +28,7 @@ public class SmartphoneController {
 
     @GetMapping("/list")
     public ModelAndView getAllSmartphonePage() {
-        ModelAndView modelAndView = new ModelAndView("/phones/list");
+        ModelAndView modelAndView = new ModelAndView("/list");
         modelAndView.addObject("smartphones", smartphoneService.findAll());
         return modelAndView;
     }

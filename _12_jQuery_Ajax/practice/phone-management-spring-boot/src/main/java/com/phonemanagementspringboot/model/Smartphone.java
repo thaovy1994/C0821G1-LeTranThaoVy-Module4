@@ -1,6 +1,5 @@
 package com.phonemanagementspringboot.model;
 
-
 import javax.persistence.*;
 
 @Entity
