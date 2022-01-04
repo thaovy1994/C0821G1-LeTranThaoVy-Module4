@@ -1,5 +1,7 @@
 package com.blog_app.blog_app_restful.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,6 +12,7 @@ public class Category {
     private Integer category_id;
     private String name;
 
+    @JsonBackReference
     @OneToMany(targetEntity = Blog.class, mappedBy = "category")
     private List< Blog > blogList;
 

@@ -1,0 +1,13 @@
+package com.phonemanagementspringboot;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class PhoneManagementSpringBootApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+
+}
