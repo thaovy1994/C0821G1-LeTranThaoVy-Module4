@@ -1,16 +1,19 @@
-package com.phonemanagementspringboot.model;
+package com.complete_smartphone.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="smartphones")
 public class Smartphone {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String producer;
+    @NotBlank
     private String model;
+    @NotNull
     private double price;
 
     public Smartphone() {

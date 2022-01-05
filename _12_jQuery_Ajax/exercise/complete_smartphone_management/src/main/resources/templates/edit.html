@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:object="${smartphone}" action="/smartphones/edit" method="post">
+    <input type="hidden" th:field="*{id}" th:value="${smartphone.id}">
+    <table>
+        <tr>
+            <td>Producer:</td>
+            <td><input type="text" th:field="*{producer}" th:placeholder="${smartphone.producer}"></td>
+        </tr>
+        <tr>
+            <td>Model:</td>
+            <td><input type="text" th:field="*{model}" th:placeholder="${smartphone.model}"></td>
+        </tr>
+        <tr>
+            <td>Price:</td>
+            <td><input type="text" th:field="*{price}" th:placeholder="${smartphone.price}"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input hidden="hidden" type="submit" id="editBtn" value="edit"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
