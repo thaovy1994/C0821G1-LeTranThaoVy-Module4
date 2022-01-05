@@ -106,11 +106,12 @@
     </table>
 </form>
 <h1>Smartphone List</h1>
-<table id="smartphoneList">
+<table id="smartphoneList" border="1">
     <tr>
         <td>Producer</td>
         <td>Model</td>
         <td>Price</td>
+        <td>Edit</td>
         <td>Delete</td>
     </tr>
     <th:block th:each="smartphone: ${smartphones}">
@@ -118,7 +119,8 @@
             <td th:text="${smartphone.producer}"></td>
             <td th:text="${smartphone.model}"></td>
             <td th:text="${smartphone.price}"></td>
-            <td><a class="deleteSmartphone" th:href="${smartphone.getId()}">Delete</a></td>
+            <td><a class="editSmartphone" th:href="@{/edit/__${smartphone.id}__}">Edit</a></td>
+            <td><a class="deleteSmartphone" th:href="${smartphone.getId()}"></a>Delete</td>
         </tr>
     </th:block>
 </table>

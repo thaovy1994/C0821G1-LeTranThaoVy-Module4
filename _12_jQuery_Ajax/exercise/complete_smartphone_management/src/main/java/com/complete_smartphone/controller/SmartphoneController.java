@@ -60,8 +60,16 @@ public class SmartphoneController {
     @GetMapping(value = "/edit/{id}")
     public ModelAndView editView(@PathVariable Long id, Model model) {
         ModelAndView modelAndView = new ModelAndView("edit");
-        modelAndView.addObject("smartphone", smartphoneService.findById(id).get());
+        modelAndView.addObject("smartphones", smartphoneService.findById(id).get());
         return modelAndView;
     }
 
+    @PostMapping("/edit")
+    public ModelAndView updateCustomer(@ModelAttribute("smartphone") Smartphone smartphones) {
+        smartphoneService.save(smartphones);
+        ModelAndView modelAndView = new ModelAndView("list");
+        modelAndView.addObject("smartphones", smartphoneService.findAll());
+        modelAndView.addObject("message", "Updated successfully");
+        return modelAndView;
+    }
 }
