@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer List</title>
+    <style>
+        table {
+            border: 1px solid #000;
+        }
+
+        th, td {
+            border: 1px dotted #555;
+        }
+    </style>
+</head>
+<body>
+<form action="/customers" method="get">
+<select name="lang">
+    <option value="vi">Vietnamese</option>
+    <option value="en">English</option>
+    <option value="zh">Chinese</option>
+</select>
+    <button type="submit">Submit</button>
+</form>
+<h1 th:text="#{list.tittle}"></h1>
+<form>
+    <label>
+        Search by name or email:
+        <input type="text" name="s">
+    </label>
+<!--    <input type="submit" th:text="#{list.btn_search}" value="Search">-->
+    <button type="submit" th:text="#{list.btn_search}"></button>
+</form>
+<table>
+    <caption>Customers List</caption>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>First</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Province</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c : ${customers}">
+        <td th:text="${c.id}"></td>
+        <td>
+            <a th:href="@{/customers/{id}(id=${c.id})}" th:text="${c.name}"></a>
+        </td>
+        <td th:text="${c.email}"></td>
+        <td th:text="${c.address}"></td>
+        <td th:text="${c.province?.name}"></td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <a th:if="${customers.hasPrevious()}"
+       th:href="@{'/customers'(page=${customers.number - 1}, size=${customers.size}, s=${keyword})}">
+        Previous
+    </a>
+    <a th:if="${customers.hasNext()}"
+       th:href="@{'/customers'(page=${customers.number + 1}, size=${customers.size}, s=${keyword})}">
+        Next
+    </a>
+</div>
+</body>
+</html>
