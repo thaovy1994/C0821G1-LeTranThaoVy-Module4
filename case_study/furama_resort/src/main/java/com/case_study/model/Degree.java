@@ -15,7 +15,7 @@ public class Degree {
     private String name;
 
     @JsonBackReference
-    @OneToMany(targetEntity = Employee.class, mappedBy = "degree")
+    @OneToMany(targetEntity = Employee.class, mappedBy = "degree", cascade = CascadeType.ALL)
     private List< Employee > employeeList;
 
     public Degree() {

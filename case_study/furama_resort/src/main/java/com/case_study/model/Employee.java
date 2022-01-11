@@ -23,15 +23,15 @@ public class Employee {
     @Column
     private String address;
 
-    @ManyToOne(targetEntity = Position.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Position.class)
     @JoinColumn(name = "position_id", referencedColumnName = "position_id")
     private Position position;
 
-    @ManyToOne(targetEntity = Degree.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Degree.class)
     @JoinColumn(name = "degree_id", referencedColumnName = "degree_id")
     private Degree degree;
 
-    @ManyToOne(targetEntity = Division.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Division.class)
     @JoinColumn(name = "division_id", referencedColumnName = "division_id")
     private Division division;
 

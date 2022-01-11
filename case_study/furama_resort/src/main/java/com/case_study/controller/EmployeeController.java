@@ -1,51 +1,63 @@
 package com.case_study.controller;
 
 import com.case_study.model.Employee;
+import com.case_study.service.IDegreeService;
+import com.case_study.service.IDivisionService;
 import com.case_study.service.IEmployeeService;
+import com.case_study.service.IPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("employee")
+@CrossOrigin(origins = "*")
 public class EmployeeController {
     @Autowired
     @Qualifier(value = "employeeService")
     private IEmployeeService employeeService;
 
-    @GetMapping("/list_employee")
-    public ModelAndView listPage() {
-        return new ModelAndView("list_employee", "employeeList", employeeService.getAll());
-    }
+    @Autowired
+    @Qualifier(value = "positionService")
+    private IPositionService positionService;
 
-    @GetMapping("{id}")
-    public String showEditForm(@PathVariable(name = "id") Integer id, Model model) {
-        Employee employee = employeeService.findById(id);
-        model.addAttribute("employee", employee);
-        return "edit_employee";
-    }
+    @Autowired
+    @Qualifier(value = "degreeService")
+    private IDegreeService degreeService;
 
-    @PostMapping("/list_employee")
-    public ModelAndView updateCustomer(@ModelAttribute("employee") Employee employee) {
-        employeeService.save(employee);
-        ModelAndView modelAndView = new ModelAndView("list_employee");
-        modelAndView.addObject("employeeList", employeeService.getAll());
-        modelAndView.addObject("message", "Updated successfully");
-        return modelAndView;
+    @Autowired
+    @Qualifier(value = "divisionService")
+    private IDivisionService divisionService;
+
+//    @GetMapping("/list-employee")
+//    public ModelAndView listPage() {
+//        return new ModelAndView("list_employee", "employeeList", employeeService.getAll());
+//    }
+
+    @GetMapping(value = "/list-page")
+    public String listPageable(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+        Sort sort = Sort.by("employeeId").ascending();
+        Page<Employee> employeePage = employeeService.findAll(PageRequest.of(page, 4, sort));
+        model.addAttribute("employeePage", employeePage);
+        return "employee/list_page";
     }
 
     @GetMapping("/create-employee")
     public String showCreateForm(Model model) {
-        model.addAttribute("employee", employeeService.getAll());
+        model.addAttribute("position", positionService.getAll());
+        model.addAttribute("division", divisionService.getAll());
+        model.addAttribute("degree", degreeService.getAll());
         model.addAttribute("employee", new Employee());
-        return "create_employee";
+        return "employee/create_employee";
     }
 
     @PostMapping(value = "/create-employee")
@@ -57,8 +69,31 @@ public class EmployeeController {
 //        cookie.setHttpOnly(false);
 //        cookie.setMaxAge(24 * 60 * 60);
 //        response.addCookie(cookie);
-        redirectAttributes.addFlashAttribute("employeeList", employeeService.getAll());
+        redirectAttributes.addFlashAttribute("employeePage", employeeService.getAll());
         redirectAttributes.addFlashAttribute("message", "Create new employee successfully!");
-        return "redirect:/list_employee";
+        return "redirect:/employee/list-page";
+    }
+
+//    @GetMapping("{id}")
+//    public String showEditForm(@PathVariable(name = "id") Integer id, Model model) {
+//        Employee employee = employeeService.findById(id);
+//        model.addAttribute("employee", employee);
+//        return "employee/edit_employee";
+//    }
+//
+//    @PostMapping("/list-employee-page")
+//    public ModelAndView editEmployee(@ModelAttribute("employee") Employee employee) {
+//        employeeService.save(employee);
+//        ModelAndView modelAndView = new ModelAndView("employee/list_employee_page");
+//        modelAndView.addObject("employeeList", employeeService.getAll());
+//        modelAndView.addObject("message", "Updated successfully");
+//        return modelAndView;
+//    }
+
+    @GetMapping("/delete-employee/{id}")
+    public String deleteEmployee(@PathVariable(name = "id") Integer id) {
+        Employee employee = employeeService.findById(id);
+        employeeService.remove(employee.getEmployeeId());
+        return "redirect:/employee/list-page";
     }
 }

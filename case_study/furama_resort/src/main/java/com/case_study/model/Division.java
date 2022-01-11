@@ -15,7 +15,7 @@ public class Division {
     private String name;
 
     @JsonBackReference
-    @OneToMany(targetEntity = Employee.class, mappedBy = "division")
+    @OneToMany(targetEntity = Employee.class, mappedBy = "division", cascade = CascadeType.ALL)
     private List< Employee > employeeList;
 
     public Division() {

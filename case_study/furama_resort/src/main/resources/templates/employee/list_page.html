@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="main-layout">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Employee</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Licorice&family=Luxurious+Roman&family=The+Nautigal&family=Vujahday+Script&family=Work+Sans:ital,wght@1,300&display=swap"
+          rel="stylesheet">
+</head>
+<body class="bg-image"
+      style="background-size: cover;
+ background-image: url('https://wallpaperaccess.com/full/1521647.png');">
+<nav nav class="navbar navbar-expand-lg navbar-light bg-success">
+    <div class="container-fluid">
+        <a class="navbar-brand btn btn-warning font-google-2 fs-3" th:href="@{/home}">Home</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <!--<a class="nav-link active text-warning" aria-current="page" th:href="@{create-employee}">Create</a>-->
+                    <a class="nav-link text-warning" th:href="@{create-employee}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-plus-lg" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                        </svg>
+                        Add Employee
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-warning" href="#">Information</a>
+                </li>
+            </ul>
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-warning" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<div>
+<!--    <th:block th:if="${message}">-->
+<!--        <p th:text="${message}"></p>-->
+<!--    </th:block>-->
+</div>
+<h2 class="text-center font-google-2 fs-1 text-primary">List of employee</h2>
+<table id="employeeList" class="table">
+    <thead class="text-white bg-opacity-40 bg-info">
+    <tr>
+        <th scope="col" class="text-center">Employee ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Date Of Birth</th>
+        <th scope="col">ID Card</th>
+        <th scope="col">Salary</th>
+        <th scope="col">Phone</th>
+        <th scope="col">Email</th>
+        <th scope="col">Address</th>
+        <th scope="col">Position</th>
+        <th scope="col">Division</th>
+        <th scope="col">Degree</th>
+        <th scope="col" class="text-center">Show Detail</th>
+        <th scope="col" class="text-center">Edit</th>
+        <th scope="col" class="text-center">Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employees: ${employeePage}">
+        <td class="text-center fw-bold" th:text="${employees.employeeId}"></td>
+        <td th:text="${employees.name}"></td>
+        <td th:text="${employees.birthDay}"></td>
+        <td th:text="${employees.idCard}"></td>
+        <td th:text="${employees.salary}"></td>
+        <td th:text="${employees.phone}"></td>
+        <td th:text="${employees.email}"></td>
+        <td th:text="${employees.address}"></td>
+        <td th:text="${employees.position.name}"></td>
+        <td th:text="${employees.division.name}"></td>
+        <td th:text="${employees.degree.name}"></td>
+        <td class="text-center">
+            <a th:href="@{employee/list-page/__${employees.employeeId}__ }"
+               role="button" class="btn btn-large btn-light text-success" data-bs-toggle="modal"
+               data-bs-target="#detailModal">Detail</a>
+        </td>
+        <td class="text-center">
+            <a th:href="@{list-page/(__${employees.employeeId}__ )}"
+               role="button" class="btn btn-large btn-light text-success" data-bs-toggle="modal"
+               data-bs-target="#editModal">Edit</a>
+        </td>
+        <td class="text-center">
+            <a th:href="@{employee/delete-employee/(id=${employees.employeeId})}"
+                    role="button" class="btn btn-large btn-danger" data-bs-toggle="modal"
+               data-bs-target="#deleteModal">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<form method="post">
+    <div class="modal fade" id="editModal" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" th:each="employees: ${employeePage}">
+                    <h5 class="modal-title">Edit Form
+                        <!--                        <span class="text-danger" th:text="${employees.employeeId}"></span>-->
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" name="id" placeholder="id" class="form-control">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="delete" class="btn btn-primary">Edit</button>
+                    <input type="hidden" name="action" value="delete">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<form method="get" th:action="@{/employee/delete-employee/${employees.employeeId}}" th:each="employees: ${employeePage}">
+    <div class="modal fade" id="deleteModal" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false"
+         tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Are you sure to delete
+                        <span class="text-danger" th:text="${employees.name}"></span>
+                        <span>from list ?</span>
+                    </h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="delete" class="btn btn-primary">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link"
+               th:if="${employeePage.hasPrevious()}"
+               th:href="@{/employee/list-page(page = ${employeePage.number - 1})}">
+                Previous
+            </a>
+        </li>
+        <li class="page-item" th:each="pageNo: ${#numbers.sequence(0,employeePage.totalPages - 1)}">
+            <a class="page-link" th:href="@{/employee/list-page(page = ${pageNo})}" th:text="${pageNo}"></a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"
+               th:if="${employeePage.hasNext()}" th:href="@{/employee/list-page(page = ${employeePage.number + 1})}">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+    })
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+</body>
+</html>
