@@ -1,5 +1,6 @@
 package com.case_study.service.impl;
 
+import com.case_study.dto.EmployeeDto;
 import com.case_study.model.Employee;
 import com.case_study.repository.IEmployeeRepository;
 import com.case_study.service.IEmployeeService;
@@ -26,12 +27,26 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public List<Employee> findByName(String name) {
-        return findByName("%" + name + "%");
+    public Page<Employee> findByName(Pageable pageable, String name) {
+        Page<Employee> employeePage = employeeRepository.getByName(pageable,"%"+name+"%");
+        return employeePage;
     }
+
+//    @Override
+//    public List<Employee> findByName(String name) {
+//        return findByName("%" + name + "%");
+//    }
 
     @Override
     public void save(Employee employee) {
+        employeeRepository.save(employee);
+    }
+
+    @Override
+    public void save(EmployeeDto employeeDto) {
+        Employee employee = new Employee(employeeDto.getEmployeeId(),employeeDto.getName(),employeeDto.getBirthDay(),
+                employeeDto.getIdCard(),employeeDto.getSalary(),employeeDto.getPhone(),employeeDto.getEmail(),
+                employeeDto.getAddress(),employeeDto.getPosition(),employeeDto.getDegree(),employeeDto.getDivision());
         employeeRepository.save(employee);
     }
 

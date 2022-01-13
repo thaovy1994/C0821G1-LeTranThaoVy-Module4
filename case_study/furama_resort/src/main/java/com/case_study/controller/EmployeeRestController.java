@@ -17,10 +17,26 @@ public class EmployeeRestController {
     @Autowired
     private IEmployeeService employeeService;
 
-    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Employee>> showList(@RequestParam(name = "name", required = false) String name,
-                                                   @RequestParam(name = "index", required = false) int index) {
-        List<Employee> employeeListList = employeeService.findByName(name);
-        return new ResponseEntity<>(employeeListList, HttpStatus.OK);
+//    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<List<Employee>> showList(@RequestParam(name = "name", required = false) String name,
+//                                                   @RequestParam(name = "index", required = false) int index) {
+//        List<Employee> employeeListList = employeeService.findByName(name);
+//        return new ResponseEntity<>(employeeListList, HttpStatus.OK);
+//    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<Employee> getById(@RequestParam(name="id")Integer id){
+        return new ResponseEntity<>(employeeService.findById(id),HttpStatus.OK);
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<String> createEmployee(@RequestBody Employee employee){
+        employeeService.save(employee);
+        return new ResponseEntity<>("successfully",HttpStatus.OK);
+    }
+
+//    @GetMapping(value = "/employee/{id}",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Employee> deleteEmployee(@PathVariable Integer id){
+//        return new ResponseEntity<>(employeeService.remove(id),HttpStatus.OK);
+//    }
 }

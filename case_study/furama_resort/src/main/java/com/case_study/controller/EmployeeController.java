@@ -1,5 +1,6 @@
 package com.case_study.controller;
 
+import com.case_study.dto.EmployeeDto;
 import com.case_study.model.Employee;
 import com.case_study.service.IDegreeService;
 import com.case_study.service.IDivisionService;
@@ -9,17 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.List;
 
 @Controller
-@RequestMapping("employee")
+@RequestMapping("/employee")
 @CrossOrigin(origins = "*")
 public class EmployeeController {
     @Autowired
@@ -51,6 +56,13 @@ public class EmployeeController {
         return "employee/list_page";
     }
 
+    @GetMapping("/search")
+    public String searchEmployee(@RequestParam(name = "name")String name,Pageable pageable,Model model) {
+        Page<Employee> employeePage = employeeService.findByName(pageable,name);
+        model.addAttribute("employeePage", employeePage);
+        return "employee/list_page";
+    }
+
     @GetMapping("/create-employee")
     public String showCreateForm(Model model) {
         model.addAttribute("position", positionService.getAll());
@@ -61,9 +73,16 @@ public class EmployeeController {
     }
 
     @PostMapping(value = "/create-employee")
-    public String createNewEmployee(@ModelAttribute("employee") Employee employee, RedirectAttributes redirectAttributes
+    public String createNewEmployee(Model model,@Valid @ModelAttribute("employee") EmployeeDto employeeDto,
+                                    BindingResult bindingResult, RedirectAttributes redirectAttributes
             , HttpServletResponse response, @CookieValue(value = "cookieCount", defaultValue = "0") int newCookie) {
-        employeeService.save(employee);
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("position", positionService.getAll());
+            model.addAttribute("division", divisionService.getAll());
+            model.addAttribute("degree", degreeService.getAll());
+            return "employee/create_employee";
+        }
+        employeeService.save(employeeDto);
 //        Cookie cookie = new Cookie("cookieCount", String.valueOf(newCookie + 1));
 //        cookie.setPath("/");
 //        cookie.setHttpOnly(false);
@@ -74,26 +93,45 @@ public class EmployeeController {
         return "redirect:/employee/list-page";
     }
 
-//    @GetMapping("{id}")
-//    public String showEditForm(@PathVariable(name = "id") Integer id, Model model) {
+//    @GetMapping(value = "{id}/detail")
+//    public String getDetail(@PathVariable(name = "id") Integer id, Model model,
+//                            RedirectAttributes redirectAttributes) {
 //        Employee employee = employeeService.findById(id);
-//        model.addAttribute("employee", employee);
-//        return "employee/edit_employee";
-//    }
-//
-//    @PostMapping("/list-employee-page")
-//    public ModelAndView editEmployee(@ModelAttribute("employee") Employee employee) {
-//        employeeService.save(employee);
-//        ModelAndView modelAndView = new ModelAndView("employee/list_employee_page");
-//        modelAndView.addObject("employeeList", employeeService.getAll());
-//        modelAndView.addObject("message", "Updated successfully");
-//        return modelAndView;
+//        model.addAttribute("employee",employee);
+//        return "redirect:/employee/list-page";
 //    }
 
-    @GetMapping("/delete-employee/{id}")
-    public String deleteEmployee(@PathVariable(name = "id") Integer id) {
+    @GetMapping("/edit-employee/{id}")
+    public String showEditForm(@PathVariable(name = "id") Integer id, Model model) {
+        Employee employee = employeeService.findById(id);
+        model.addAttribute("position", positionService.getAll());
+        model.addAttribute("division", divisionService.getAll());
+        model.addAttribute("degree", degreeService.getAll());
+        model.addAttribute("employee", employee);
+        return "employee/edit_employee";
+    }
+
+    @PostMapping("/edit-employee")
+    public String editEmployee(Model model,@Valid @ModelAttribute("employee") EmployeeDto employeeDto,
+                                     BindingResult bindingResult, RedirectAttributes redirectAttributes
+            , HttpServletResponse response, @CookieValue(value = "cookieCount", defaultValue = "0") int newCookie) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("position", positionService.getAll());
+            model.addAttribute("division", divisionService.getAll());
+            model.addAttribute("degree", degreeService.getAll());
+            return "employee/edit_employee";
+        }
+        employeeService.save(employeeDto);
+        redirectAttributes.addFlashAttribute("employeePage", employeeService.getAll());
+        redirectAttributes.addFlashAttribute("message", "Update successfully!");
+        return "redirect:/employee/list-page";
+    }
+
+    @GetMapping("/delete")
+    public String deleteEmployee(@RequestParam(name = "id") Integer id) {
         Employee employee = employeeService.findById(id);
         employeeService.remove(employee.getEmployeeId());
+//        employeeService.remove(id);
         return "redirect:/employee/list-page";
     }
 }

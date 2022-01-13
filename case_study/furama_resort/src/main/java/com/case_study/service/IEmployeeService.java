@@ -1,5 +1,6 @@
 package com.case_study.service;
 
+import com.case_study.dto.EmployeeDto;
 import com.case_study.model.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,9 +12,11 @@ public interface IEmployeeService {
 
     Employee findById(Integer id);
 
-    List<Employee> findByName(String name);
+//    List<Employee> findByName(String name);
+    Page<Employee> findByName(Pageable pageable, String name);
 
     void save(Employee employee);
+    void save(EmployeeDto employeeDto);
 
     void remove(Integer id);
 

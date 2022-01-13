@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="main-layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>List of Employee</title>
@@ -8,6 +8,7 @@
     <link href="../../static/css/style.css" th:href="@{/css/style.css}" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Licorice&family=Luxurious+Roman&family=The+Nautigal&family=Vujahday+Script&family=Work+Sans:ital,wght@1,300&display=swap"
           rel="stylesheet">
+    <script src="jquery-3.6.0.min.js"></script>
 </head>
 <body class="bg-image"
       style="background-size: cover;
@@ -36,17 +37,17 @@
                     <a class="nav-link text-warning" href="#">Information</a>
                 </li>
             </ul>
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <form class="d-flex" th:action="@{/employee/search}" method="get">
+                <input name="name" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-warning" type="submit">Search</button>
             </form>
         </div>
     </div>
 </nav>
 <div>
-<!--    <th:block th:if="${message}">-->
-<!--        <p th:text="${message}"></p>-->
-<!--    </th:block>-->
+    <!--    <th:block th:if="${message}">-->
+    <!--        <p th:text="${message}"></p>-->
+    <!--    </th:block>-->
 </div>
 <h2 class="text-center font-google-2 fs-1 text-primary">List of employee</h2>
 <table id="employeeList" class="table">
@@ -82,67 +83,81 @@
         <td th:text="${employees.division.name}"></td>
         <td th:text="${employees.degree.name}"></td>
         <td class="text-center">
-            <a th:href="@{employee/list-page/__${employees.employeeId}__ }"
-               role="button" class="btn btn-large btn-light text-success" data-bs-toggle="modal"
-               data-bs-target="#detailModal">Detail</a>
+            <a type="button" class="btn btn-large btn-light text-success btn-detail"
+               data-bs-toggle="modal" data-bs-target="#detailModal"
+               th:data-id123="${employees.employeeId}" th:data-name="${employees.name}"
+               th:data-birth_day="${employees.birthDay}" th:data-id_card="${employees.idCard}">Detail</a>
         </td>
         <td class="text-center">
-            <a th:href="@{list-page/(__${employees.employeeId}__ )}"
-               role="button" class="btn btn-large btn-light text-success" data-bs-toggle="modal"
-               data-bs-target="#editModal">Edit</a>
+            <a th:href="@{edit-employee/__${employees.employeeId}__}" role="button"
+               class="btn btn-large btn-light text-success">Edit</a>
         </td>
         <td class="text-center">
-            <a th:href="@{employee/delete-employee/(id=${employees.employeeId})}"
-                    role="button" class="btn btn-large btn-danger" data-bs-toggle="modal"
-               data-bs-target="#deleteModal">Delete</a>
+            <a role="button" class="btn btn-large btn-danger btn-delete"
+               data-bs-toggle="modal" data-bs-target="#deleteModal"
+               th:data-id123="${employees.employeeId}" th:data-name="${employees.name}">Delete</a>
         </td>
     </tr>
     </tbody>
 </table>
-<form method="post">
-    <div class="modal fade" id="editModal" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false"
-         tabindex="-1"
-         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" th:each="employees: ${employeePage}">
-                    <h5 class="modal-title">Edit Form
-                        <!--                        <span class="text-danger" th:text="${employees.employeeId}"></span>-->
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" name="id" placeholder="id" class="form-control">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="delete" class="btn btn-primary">Edit</button>
-                    <input type="hidden" name="action" value="delete">
-                </div>
+<!--DETAIL MODAL-->
+<div class="modal" tabindex="-1" id="detailModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Show detail</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <th scope="col" class="text-center">Employee ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Date Of Birth</th>
+                        <th scope="col">ID Card</th>
+                        <th scope="col">Salary</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Address</th>
+                    </tr>
+                    <tr>
+                        <td class="text-center" id="id-detail"></td>
+                        <td id="name-detail"></td>
+                        <td id="birthDay-detail"></td>
+                        <td id="card-detail"></td>
+                        <td id="salary-detail"></td>
+                        <td id="phone-detail"></td>
+                        <td id="email-detail"></td>
+                        <td id="address-detail"></td>
+       
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</form>
-<form method="get" th:action="@{/employee/delete-employee/${employees.employeeId}}" th:each="employees: ${employeePage}">
-    <div class="modal fade" id="deleteModal" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false"
-         tabindex="-1"
-         aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Are you sure to delete
-                        <span class="text-danger" th:text="${employees.name}"></span>
-                        <span>from list ?</span>
-                    </h5>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" name="delete" class="btn btn-primary">Delete</button>
-                </div>
+</div>
+<!--DELETE MODAL-->
+<div class="modal" tabindex="-1" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Are you sure to delete</h5>
+                <h5 class="text-danger modal-title ms-1" id="name-delete"></h5>
+                <h5 class="modal-title ms-1">from list ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!--                        <p>Modal body text goes here.</p>-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="link-delete" type="button" class="btn btn-primary" href="">Delete</a>
             </div>
         </div>
     </div>
-</form>
+</div>
+<!--PAGEABLE-->
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
         <li class="page-item">
@@ -163,15 +178,36 @@
         </li>
     </ul>
 </nav>
-<script type="text/javascript">
-    $(document).ready(function () {
-
-    })
-</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
-        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".btn-delete").click(function () {
+            let id = this.dataset.id123;
+            let name = this.dataset.name;
+            $('#name-delete').html(name);
+            $('#link-delete').attr("href", "http://localhost:8080/employee/delete?id=" + id);
+        });
+    })
+    $(document).ready(function () {
+        $(".btn-detail").click(function () {
+            let id = this.dataset.id123;
+            // alert(id);
+            let name = this.dataset.name;
+            let birthDay = this.dataset.birth_day;
+            // alert(birthDay);
+            let idCard = this.dataset.id_card;
+            $('#id-detail').html(id);
+            $('#name-detail').html(name);
+            $('#birthDay-detail').html(birthDay);
+            $('#card-detail').html(idCard);
+        });
+    })
+</script>
 </body>
 </html>
