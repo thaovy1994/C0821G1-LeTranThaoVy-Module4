@@ -86,7 +86,11 @@
             <a type="button" class="btn btn-large btn-light text-success btn-detail"
                data-bs-toggle="modal" data-bs-target="#detailModal"
                th:data-id123="${employees.employeeId}" th:data-name="${employees.name}"
-               th:data-birth_day="${employees.birthDay}" th:data-id_card="${employees.idCard}">Detail</a>
+               th:data-birth_day="${employees.birthDay}" th:data-id_card="${employees.idCard}"
+               th:data-salary="${employees.salary}" th:data-phone="${employees.phone}"
+               th:data-email="${employees.email}" th:data-address="${employees.address}"
+               th:data-position="${employees.position.name}" th:data-division="${employees.division.name}"
+               th:data-degree="${employees.degree.name}" >Detail</a>
         </td>
         <td class="text-center">
             <a th:href="@{edit-employee/__${employees.employeeId}__}" role="button"
@@ -105,30 +109,54 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Show detail</h5>
+                <h5 class="modal-title text-warning bg-success">Show detail</h5>
             </div>
             <div class="modal-body">
                 <table class="table">
                     <tr>
-                        <th scope="col" class="text-center">Employee ID</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Date Of Birth</th>
-                        <th scope="col">ID Card</th>
-                        <th scope="col">Salary</th>
-                        <th scope="col">Phone</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Address</th>
+                        <th scope="col">Employee ID</th>
+                        <td id="id-detail"></td>
                     </tr>
                     <tr>
-                        <td class="text-center" id="id-detail"></td>
+                        <th scope="col">Name</th>
                         <td id="name-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Date Of Birth</th>
                         <td id="birthDay-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">ID Card</th>
                         <td id="card-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Salary</th>
                         <td id="salary-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Phone</th>
                         <td id="phone-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Email</th>
                         <td id="email-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Address</th>
                         <td id="address-detail"></td>
-       
+                    </tr>
+                    <tr>
+                        <th scope="col">Position</th>
+                        <td id="position-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Division</th>
+                        <td id="division-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Degree</th>
+                        <td id="degree-detail"></td>
+                    </tr>
                 </table>
             </div>
             <div class="modal-footer">
@@ -197,15 +225,27 @@
     $(document).ready(function () {
         $(".btn-detail").click(function () {
             let id = this.dataset.id123;
-            // alert(id);
             let name = this.dataset.name;
             let birthDay = this.dataset.birth_day;
-            // alert(birthDay);
-            let idCard = this.dataset.id_card;
+            let id_card = this.dataset.id_card;
+            let salary = this.dataset.salary;
+            let phone = this.dataset.phone;
+            let email = this.dataset.email;
+            let address = this.dataset.address;
+            let position = this.dataset.position;
+            let division = this.dataset.division;
+            let degree = this.dataset.degree;
             $('#id-detail').html(id);
             $('#name-detail').html(name);
             $('#birthDay-detail').html(birthDay);
-            $('#card-detail').html(idCard);
+            $('#card-detail').html(id_card);
+            $('#salary-detail').html(salary);
+            $('#phone-detail').html(phone);
+            $('#email-detail').html(email);
+            $('#address-detail').html(address);
+            $('#position-detail').html(position);
+            $('#division-detail').html(division);
+            $('#degree-detail').html(degree);
         });
     })
 </script>

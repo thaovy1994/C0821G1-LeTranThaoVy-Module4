@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of question</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<nav nav class="navbar navbar-expand-lg navbar-light light">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <a class="btn bg-success text-white" th:href="@{create}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-plus-lg" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z"/>
+                    </svg>
+                    Tạo câu hỏi
+                </a>
+            </ul>
+            <form class="d-flex" th:action="@{/question/search}" method="post">
+                <input name="title" class="form-control me-2" type="search" placeholder="Tiêu đề" aria-label="Search">
+<!--                <input name="questionType" class="form-control me-2" type="search" placeholder="Loại câu hỏi" aria-label="Search">-->
+                <select class="form-select" name="questionType">
+                    <option th:value="null">Loại câu hỏi</option>
+                    <option th:each="questions : ${questionTypes}" th:value="${questions.questionTypeId}"
+                            th:text="${questions.name}">
+                    </option>
+                </select>
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+<h2 class="text-center font-google-2 fs-1 text-primary">List of employee</h2>
+<table id="employeeList" class="table text-center">
+    <thead class="text-white bg-opacity-40 bg-info">
+    <tr>
+        <th scope="col" class="text-center">STT</th>
+        <th scope="col">Tiêu đề</th>
+        <th scope="col">loại câu hỏi</th>
+        <th scope="col">Ngày đăng</th>
+        <th scope="col">Tình trạng</th>
+        <th scope="col">Tính năng
+        <td></td>
+        <td></td>
+        <td></td>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="questions: ${questionPage}">
+        <td class="text-center fw-bold" th:text="${questions.id}"></td>
+        <td th:text="${questions.title}"></td>
+        <td th:text="${questions.questionType.name}"></td>
+        <td th:text="${questions.date_create}"></td>
+        <td th:text="${questions.status}"></td>
+        <td class="text-center">
+            <a type="button" class="btn btn-large btn-light btn-detail bg-warning"
+               data-bs-toggle="modal" data-bs-target="#detailModal"
+               th:data-id123="${questions.id}" th:data-title="${questions.title}"
+               th:data-birth_day="${questions.questions}" th:data-id_card="${questions.answer}"
+               th:data-salary="${questions.questionType.name}" th:data-phone="${questions.date_create}"
+               th:data-email="${questions.status}">Detail</a>
+        </td>
+        <td class="text-center">
+            <a th:href="@{edit/__${questions.id}__}" role="button"
+               class="btn btn-large btn-light bg-warning">Edit</a>
+        </td>
+        <td class="text-center">
+            <a role="button" class="btn btn-large btn-danger btn-delete"
+               data-bs-toggle="modal" data-bs-target="#deleteModal"
+               th:data-id123="${questions.id}" th:data-title="${questions.title}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<!--DETAIL MODAL-->
+<div class="modal" tabindex="-1" id="detailModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success">Xem chi tiết</h5>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <td id="id-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Tiêu đề</th>
+                        <td id="title-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Nội dung</th>
+                        <td id="birthDay-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Phản hồi</th>
+                        <td id="card-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Loại câu hỏi</th>
+                        <td id="salary-detail"></td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Ngày đăng</th>
+                        <td id="phone-detail"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary bg-info" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--DELETE MODAL-->
+<div class="modal" tabindex="-1" id="deleteModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Are you sure to delete</h5>
+                <h5 class="text-danger modal-title ms-1" id="id-delete"></h5>
+                <h5 class="modal-title ms-1">from list ?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!--                        <p>Modal body text goes here.</p>-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a id="link-delete" type="button" class="btn btn-primary" href="">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--PAGEABLE-->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            <a class="page-link"
+               th:if="${questionPage.hasPrevious()}"
+               th:href="@{/question/list(page = ${questionPage.number - 1})}">
+                Previous
+            </a>
+        </li>
+        <li class="page-item" th:each="pageNo: ${#numbers.sequence(0,questionPage.totalPages - 1)}">
+            <a class="page-link" th:href="@{/question/list(page = ${pageNo})}" th:text="${pageNo}"></a>
+        </li>
+        <li class="page-item">
+            <a class="page-link"
+               th:if="${questionPage.hasNext()}" th:href="@{/question/list(page = ${questionPage.number + 1})}">
+                Next
+            </a>
+        </li>
+    </ul>
+</nav>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
+        integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
+        integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
+        crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".btn-delete").click(function () {
+            let id = this.dataset.id123;
+            let title = this.dataset.title;
+            $('#id-delete').html(id);
+            $('#link-delete').attr("href", "http://localhost:8080/question/delete?id=" + id);
+        });
+    })
+    $(document).ready(function () {
+        $(".btn-detail").click(function () {
+            let id = this.dataset.id123;
+            let title = this.dataset.title;
+            let birthDay = this.dataset.birth_day;
+            let id_card = this.dataset.id_card;
+            let salary = this.dataset.salary;
+            let phone = this.dataset.phone;
+            let email = this.dataset.email;
+            // let address = this.dataset.address;
+            // let position = this.dataset.position;
+            // let division = this.dataset.division;
+            // let degree = this.dataset.degree;
+            $('#id-detail').html(id);
+            $('#name-detail').html(title);
+            $('#birthDay-detail').html(birthDay);
+            $('#card-detail').html(id_card);
+            $('#salary-detail').html(salary);
+            $('#phone-detail').html(phone);
+            $('#email-detail').html(email);
+            // $('#address-detail').html(address);
+            // $('#position-detail').html(position);
+            // $('#division-detail').html(division);
+            // $('#degree-detail').html(degree);
+        });
+    })
+</script>
+</body>
+</html>

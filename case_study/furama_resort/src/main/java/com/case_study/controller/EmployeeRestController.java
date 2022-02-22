@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employee")
+@RequestMapping("/employee")
 @CrossOrigin(origins = "*")
 public class EmployeeRestController {
     @Autowired
@@ -23,6 +23,12 @@ public class EmployeeRestController {
 //        List<Employee> employeeListList = employeeService.findByName(name);
 //        return new ResponseEntity<>(employeeListList, HttpStatus.OK);
 //    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Employee>> getAll(){
+        List<Employee> employees = this.employeeService.getAll();
+        return new ResponseEntity<>(employees,HttpStatus.OK);
+    }
 
     @GetMapping("/detail")
     public ResponseEntity<Employee> getById(@RequestParam(name="id")Integer id){

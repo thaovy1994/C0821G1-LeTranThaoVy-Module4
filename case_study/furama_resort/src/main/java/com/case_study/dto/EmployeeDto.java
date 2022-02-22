@@ -15,7 +15,7 @@ public class EmployeeDto implements Validator {
     private Integer employeeId;
     @NotBlank(message = "Name is not empty")
     @Pattern(regexp = "^[A-Za-z ]+$")
-    @Size(min = 2,max = 40,message = "name must be from 2 to 40 words")
+    @Size(min = 2, max = 40, message = "name must be from 2 to 40 words")
     private String name;
     @NotNull
     @DateTimeFormat
@@ -49,8 +49,8 @@ public class EmployeeDto implements Validator {
     }
 
     public EmployeeDto(Integer employeeId, String name, String birthDay, String idCard,
-                    Double salary, String phone, String email, String address,
-                    Position position, Degree degree, Division division) {
+                       Double salary, String phone, String email, String address,
+                       Position position, Degree degree, Division division) {
         this.employeeId = employeeId;
         this.name = name;
         this.birthDay = birthDay;
@@ -159,9 +159,9 @@ public class EmployeeDto implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-EmployeeDto employeeDto = (EmployeeDto) target;
-        if(employeeDto.name.matches("[@;,.= -+…]+")){
-            errors.rejectValue("name","name.invalidFormat");
+        EmployeeDto employeeDto = (EmployeeDto) target;
+        if (employeeDto.name.matches("[@;,.= -+…]+")) {
+            errors.rejectValue("name", "name.invalidFormat");
         }
     }
 }
