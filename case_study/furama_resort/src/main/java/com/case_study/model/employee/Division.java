@@ -1,5 +1,6 @@
-package com.case_study.model;
+package com.case_study.model.employee;
 
+import com.case_study.model.employee.Employee;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;

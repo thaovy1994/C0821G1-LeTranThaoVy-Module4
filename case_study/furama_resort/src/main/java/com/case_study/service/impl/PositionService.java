@@ -1,7 +1,7 @@
 package com.case_study.service.impl;
 
-import com.case_study.model.Position;
-import com.case_study.repository.IPositionRepository;
+import com.case_study.model.employee.Position;
+import com.case_study.repository.employee.IPositionRepository;
 import com.case_study.service.IPositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -1,8 +1,8 @@
 package com.case_study.service.impl;
 
 import com.case_study.dto.EmployeeDto;
-import com.case_study.model.Employee;
-import com.case_study.repository.IEmployeeRepository;
+import com.case_study.model.employee.Employee;
+import com.case_study.repository.employee.IEmployeeRepository;
 import com.case_study.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

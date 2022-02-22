@@ -1,7 +1,7 @@
 package com.case_study.service.impl;
 
-import com.case_study.model.Degree;
-import com.case_study.repository.IDegreeRepository;
+import com.case_study.model.employee.Degree;
+import com.case_study.repository.employee.IDegreeRepository;
 import com.case_study.service.IDegreeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

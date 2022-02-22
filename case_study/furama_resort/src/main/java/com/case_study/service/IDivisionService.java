@@ -1,6 +1,6 @@
 package com.case_study.service;
 
-import com.case_study.model.Division;
+import com.case_study.model.employee.Division;
 
 import java.util.List;
 

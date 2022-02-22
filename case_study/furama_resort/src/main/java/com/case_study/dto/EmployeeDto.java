@@ -1,8 +1,8 @@
 package com.case_study.dto;
 
-import com.case_study.model.Degree;
-import com.case_study.model.Division;
-import com.case_study.model.Position;
+import com.case_study.model.employee.Degree;
+import com.case_study.model.employee.Division;
+import com.case_study.model.employee.Position;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

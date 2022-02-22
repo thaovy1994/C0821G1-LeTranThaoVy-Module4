@@ -1,7 +1,7 @@
 package com.case_study.service.impl;
 
-import com.case_study.model.Division;
-import com.case_study.repository.IDivisionRepository;
+import com.case_study.model.employee.Division;
+import com.case_study.repository.employee.IDivisionRepository;
 import com.case_study.service.IDivisionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

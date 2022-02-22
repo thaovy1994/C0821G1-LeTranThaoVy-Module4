@@ -1,7 +1,7 @@
 package com.case_study.controller;
 
 import com.case_study.dto.EmployeeDto;
-import com.case_study.model.Employee;
+import com.case_study.model.employee.Employee;
 import com.case_study.service.IDegreeService;
 import com.case_study.service.IDivisionService;
 import com.case_study.service.IEmployeeService;
@@ -16,12 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/employee")

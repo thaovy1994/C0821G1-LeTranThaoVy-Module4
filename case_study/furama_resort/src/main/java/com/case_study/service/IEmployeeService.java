@@ -1,7 +1,7 @@
 package com.case_study.service;
 
 import com.case_study.dto.EmployeeDto;
-import com.case_study.model.Employee;
+import com.case_study.model.employee.Employee;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
